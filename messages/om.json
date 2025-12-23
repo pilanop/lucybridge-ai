@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "Lucy AI Chat",
+    "clearChat": "Chat Haquu",
+    "lightMode": "Haala Ifaa",
+    "darkMode": "Haala Dukkanaa"
+  },
+  "chat": {
+    "placeholder": "Ergaa kee barreessi...",
+    "send": "Ergi",
+    "stop": "Dhaabi",
+    "thinking": "Yaadaa jira...",
+    "responseLanguage": "Afaan Deebii",
+    "appLanguage": "Afaan Appii",
+    "welcome": "Akkam! Har'a akkamittan si gargaaruu danda'a?",
+    "emptyState": "Ergaa armaan gadii barreessuun haasawa jalqabi."
+  },
+  "languages": {
+    "en": "Afaan Ingilizii",
+    "am": "Afaan Amaaraa",
+    "om": "Afaan Oromoo",
+    "so": "Afaan Somaalee",
+    "ti": "Afaan Tigree"
+  }
+}

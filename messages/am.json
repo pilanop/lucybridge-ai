@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "ሉሲ AI ቻት",
+    "clearChat": "ቻት አጽዳ",
+    "lightMode": "ብርሃን ሁነታ",
+    "darkMode": "ጨለማ ሁነታ"
+  },
+  "chat": {
+    "placeholder": "መልእክትዎን ይጻፉ...",
+    "send": "ላክ",
+    "stop": "አቁም",
+    "thinking": "እያሰበ...",
+    "responseLanguage": "የምላሽ ቋንቋ",
+    "appLanguage": "የመተግበሪያ ቋንቋ",
+    "welcome": "ሰላም! ዛሬ እንዴት ልረዳዎ እችላለሁ?",
+    "emptyState": "ከዚህ በታች መልእክት በመጻፍ ውይይት ይጀምሩ።"
+  },
+  "languages": {
+    "en": "እንግሊዝኛ",
+    "am": "አማርኛ",
+    "om": "ኦሮሚኛ",
+    "so": "ሶማሊኛ",
+    "ti": "ትግርኛ"
+  }
+}

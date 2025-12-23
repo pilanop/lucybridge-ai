@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "Lucy AI Chat",
+    "clearChat": "Clear Chat",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode"
+  },
+  "chat": {
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "stop": "Stop",
+    "thinking": "Thinking...",
+    "responseLanguage": "Response Language",
+    "appLanguage": "App Language",
+    "welcome": "Hello! How can I help you today?",
+    "emptyState": "Start a conversation by typing a message below."
+  },
+  "languages": {
+    "en": "English",
+    "am": "Amharic",
+    "om": "Oromo",
+    "so": "Somali",
+    "ti": "Tigrinya"
+  }
+}

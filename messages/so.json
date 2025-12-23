@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "Lucy AI Chat",
+    "clearChat": "Nadiifi Wada-hadalka",
+    "lightMode": "Qaabka Iftiinka",
+    "darkMode": "Qaabka Mugdiga"
+  },
+  "chat": {
+    "placeholder": "Fariintaada qor...",
+    "send": "Dir",
+    "stop": "Jooji",
+    "thinking": "Waa fikiraya...",
+    "responseLanguage": "Luqada Jawaabta",
+    "appLanguage": "Luqada App-ka",
+    "welcome": "Salaan! Sideen maanta kugu caawin karaa?",
+    "emptyState": "Wada-hadal ka bilow adigoo qoraya fariin hoos."
+  },
+  "languages": {
+    "en": "Ingiriisi",
+    "am": "Amxaaric",
+    "om": "Oromo",
+    "so": "Soomaali",
+    "ti": "Tigrinya"
+  }
+}
