@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
 import { useTranslations, useLocale } from "next-intl";
 import { Header } from "@/components/header";
@@ -14,9 +14,7 @@ export function ChatContainer() {
   const [responseLanguage, setResponseLanguage] = useState<Locale>(appLocale);
   const [inputValue, setInputValue] = useState("");
 
-  const { messages, status, sendMessage, stop, setMessages } = useChat({
-    api: "/api/chat",
-  });
+  const { messages, status, sendMessage, stop, setMessages } = useChat();
 
   const isLoading = status === "streaming" || status === "submitted";
 
@@ -40,25 +38,28 @@ export function ChatContainer() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-background">
       <Header onClearChat={handleClearChat} hasMessages={messages.length > 0} />
-      <ChatMessages
-        messages={messages}
-        isLoading={isLoading}
-        emptyStateText={t("emptyState")}
-      />
-      <ChatInput
-        input={inputValue}
-        onInputChange={setInputValue}
-        onSubmit={handleFormSubmit}
-        onStop={stop}
-        isLoading={isLoading}
-        placeholder={t("placeholder")}
-        sendLabel={t("send")}
-        stopLabel={t("stop")}
-        responseLanguage={responseLanguage}
-        onResponseLanguageChange={setResponseLanguage}
-      />
+      <div className="flex-1 w-full max-w-3xl mx-auto flex flex-col overflow-hidden">
+        <ChatMessages
+          messages={messages}
+          isLoading={isLoading}
+          status={status}
+          emptyStateText={t("emptyState")}
+        />
+        <ChatInput
+          input={inputValue}
+          onInputChange={setInputValue}
+          onSubmit={handleFormSubmit}
+          onStop={stop}
+          isLoading={isLoading}
+          placeholder={t("placeholder")}
+          sendLabel={t("send")}
+          stopLabel={t("stop")}
+          responseLanguage={responseLanguage}
+          onResponseLanguageChange={setResponseLanguage}
+        />
+      </div>
     </div>
   );
 }

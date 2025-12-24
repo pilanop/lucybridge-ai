@@ -1,28 +1,58 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-sans",
+// Shiromeda font family - supports Latin and Geez scripts
+const shiromeda = localFont({
+  src: [
+    {
+      path: "../font/woff2/shiromeda-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../font/woff2/shiromeda-semi-bold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../font/woff2/shiromeda-bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-shiromeda",
+  display: "swap",
 });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const shiromedaSerif = localFont({
+  src: [
+    {
+      path: "../font/woff2/shiromeda-serif-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../font/woff2/shiromeda-serif-semi-bold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../font/woff2/shiromeda-serif-bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-shiromeda-serif",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Lucy AI Chat",
-  description: "Multilingual AI chat powered by Gemini",
+  title: "Lucy AI - Your Study Companion",
+  description: "AI-powered study notes for high school students",
 };
 
 export default async function RootLayout({
@@ -36,12 +66,10 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={jetbrainsMono.variable}
+      className={`${shiromeda.variable} ${shiromedaSerif.variable}`}
       suppressHydrationWarning
     >
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

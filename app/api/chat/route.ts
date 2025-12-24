@@ -10,6 +10,7 @@ const languageInstructions: Record<string, string> = {
   om: "Afaan Oromoo tiin deebisi. Respond in Oromo (Afaan Oromoo).",
   so: "Ku jawaab Soomaali. Respond in Somali (Soomaali).",
   ti: "ብትግርኛ መልሲ ሃብ። Respond in Tigrinya (ትግርኛ).",
+  fr: "Répondez en français. Respond in French (Français).",
 };
 
 export async function POST(req: Request) {

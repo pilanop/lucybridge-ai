@@ -61,6 +61,16 @@ export function ChatInput({
   return (
     <div className="border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 p-4">
       <div className="max-w-3xl mx-auto">
+        <div className="flex items-center gap-2 mb-2 px-1">
+          <span className="text-xs text-muted-foreground font-medium">
+            AI Language:
+          </span>
+          <ChatLanguageSelector
+            value={responseLanguage}
+            onChange={onResponseLanguageChange}
+          />
+        </div>
+
         <PromptInput
           className="rounded-xl border border-input bg-background shadow-sm"
           onSubmit={handlePromptSubmit}
@@ -73,32 +83,27 @@ export function ChatInput({
             disabled={isLoading}
           />
 
-          <div className="flex justify-between items-center p-3 pt-0">
+          <div className="flex justify-end items-center p-3 pt-0">
             <div className="flex items-center gap-2">
-              <ChatLanguageSelector
-                value={responseLanguage}
-                onChange={onResponseLanguageChange}
-              />
+              {isLoading ? (
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="destructive"
+                  className="rounded-full w-8 h-8"
+                  onClick={onStop}
+                  aria-label={stopLabel}
+                >
+                  <IconPlayerStop className="h-4 w-4" />
+                </Button>
+              ) : (
+                <PromptInputSubmit
+                  size="sm"
+                  className="rounded-full w-8 h-8 p-0"
+                  aria-label={sendLabel}
+                />
+              )}
             </div>
-
-            {isLoading ? (
-              <Button
-                type="button"
-                size="icon"
-                variant="destructive"
-                className="rounded-full w-8 h-8"
-                onClick={onStop}
-                aria-label={stopLabel}
-              >
-                <IconPlayerStop className="h-4 w-4" />
-              </Button>
-            ) : (
-              <PromptInputSubmit
-                size="default"
-                className="rounded-full w-8 h-8 p-0"
-                aria-label={sendLabel}
-              />
-            )}
           </div>
         </PromptInput>
       </div>

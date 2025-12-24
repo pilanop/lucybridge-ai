@@ -1,10 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  ButtonGroup,
-  ButtonGroupText,
-} from "@/components/ui/button-group";
+import { ButtonGroup, ButtonGroupText } from "@/components/ui/button-group";
 import {
   Tooltip,
   TooltipContent,
@@ -19,9 +16,21 @@ import {
   PaperclipIcon,
   XIcon,
 } from "lucide-react";
+import Image from "next/image";
 import type { ComponentProps, HTMLAttributes, ReactElement } from "react";
-import { createContext, memo, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  memo,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Streamdown } from "streamdown";
+import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage["role"];
@@ -188,7 +197,10 @@ export const MessageBranchContent = ({
   ...props
 }: MessageBranchContentProps) => {
   const { currentBranch, setBranches, branches } = useMessageBranch();
-  const childrenArray = Array.isArray(children) ? children : [children];
+  const childrenArray = useMemo(
+    () => (Array.isArray(children) ? children : [children]),
+    [children]
+  );
 
   // Use useEffect to update branches when they change
   useEffect(() => {
@@ -211,13 +223,10 @@ export const MessageBranchContent = ({
   ));
 };
 
-export type MessageBranchSelectorProps = HTMLAttributes<HTMLDivElement> & {
-  from: UIMessage["role"];
-};
+export type MessageBranchSelectorProps = HTMLAttributes<HTMLDivElement>;
 
 export const MessageBranchSelector = ({
   className,
-  from,
   ...props
 }: MessageBranchSelectorProps) => {
   const { totalBranches } = useMessageBranch();
@@ -229,7 +238,10 @@ export const MessageBranchSelector = ({
 
   return (
     <ButtonGroup
-      className="[&>*:not(:first-child)]:rounded-l-md [&>*:not(:last-child)]:rounded-r-md"
+      className={cn(
+        "[&>*:not(:first-child)]:rounded-l-md [&>*:not(:last-child)]:rounded-r-md",
+        className
+      )}
       orientation="horizontal"
       {...props}
     />
@@ -276,6 +288,7 @@ export const MessageBranchNext = ({
       size="icon-sm"
       type="button"
       variant="ghost"
+      className={className}
       {...props}
     >
       {children ?? <ChevronRightIcon size={14} />}
@@ -313,10 +326,69 @@ export const MessageResponse = memo(
         "size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
         className
       )}
+      remarkPlugins={[
+        [remarkMath, { singleDollarTextMath: true }],
+        [remarkGfm],
+      ]}
+      rehypePlugins={[[rehypeKatex, { output: "htmlAndMathml" }]]}
+      components={{
+        table: ({ children, className, ...props }) => (
+          <div className="my-4 w-full overflow-y-auto rounded-lg border">
+            <table className={cn("w-full", className)} {...props}>
+              {children}
+            </table>
+          </div>
+        ),
+        thead: ({ children, className, ...props }) => (
+          <thead className={cn("bg-muted", className)} {...props}>
+            {children}
+          </thead>
+        ),
+        tbody: ({ children, className, ...props }) => (
+          <tbody
+            className={cn("[&_tr:last-child]:border-0", className)}
+            {...props}
+          >
+            {children}
+          </tbody>
+        ),
+        tr: ({ children, className, ...props }) => (
+          <tr
+            className={cn(
+              "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+              className
+            )}
+            {...props}
+          >
+            {children}
+          </tr>
+        ),
+        th: ({ children, className, ...props }) => (
+          <th
+            className={cn(
+              "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+              className
+            )}
+            {...props}
+          >
+            {children}
+          </th>
+        ),
+        td: ({ children, className, ...props }) => (
+          <td
+            className={cn(
+              "p-4 align-middle [&:has([role=checkbox])]:pr-0",
+              className
+            )}
+            {...props}
+          >
+            {children}
+          </td>
+        ),
+      }}
       {...props}
     />
-  ),
-  (prevProps, nextProps) => prevProps.children === nextProps.children
+  )
 );
 
 MessageResponse.displayName = "MessageResponse";
@@ -349,11 +421,11 @@ export function MessageAttachment({
     >
       {isImage ? (
         <>
-          <img
+          <Image
             alt={filename || "attachment"}
             className="size-full object-cover"
             height={100}
-            src={data.url}
+            src={data.url ?? ""}
             width={100}
           />
           {onRemove && (

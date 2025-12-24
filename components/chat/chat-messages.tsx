@@ -11,11 +11,13 @@ import {
   MessageResponse,
 } from "@/components/ai-elements/message";
 import type { UIMessage } from "ai";
-import { IconMessage } from "@tabler/icons-react";
+import { MessageFeedback } from "@/components/chat/message-feedback";
+import Image from "next/image";
 
 interface ChatMessagesProps {
   messages: UIMessage[];
   isLoading: boolean;
+  status: "submitted" | "streaming" | "ready" | "error";
   emptyStateText: string;
 }
 
@@ -33,6 +35,7 @@ function getMessageContent(message: UIMessage): string {
 export function ChatMessages({
   messages,
   isLoading,
+  status,
   emptyStateText,
 }: ChatMessagesProps) {
   return (
@@ -41,29 +44,44 @@ export function ChatMessages({
         {messages.length === 0 ? (
           <ConversationEmptyState
             icon={
-              <IconMessage className="h-10 w-10 text-muted-foreground/50" />
+              <Image
+                src="/lucybridge-logo.png"
+                alt="LucyBridge Logo"
+                width={80}
+                height={80}
+                className="opacity-50 grayscale hover:grayscale-0 transition-all duration-500"
+              />
             }
             title="Welcome to Lucy AI"
             description={emptyStateText}
           />
         ) : (
-          messages.map((message) => {
+          messages.map((message, index) => {
             const content = getMessageContent(message);
             const isUser = message.role === "user";
+            const isLastMessage = index === messages.length - 1;
+            const isStreaming =
+              status === "streaming" && !isUser && isLastMessage;
 
             return (
               <Message key={message.id} from={message.role} className="gap-4">
-                {/* Avatar handling could be done outside or within Message if modified, 
-                      but Message component structure is specific. 
-                      Standard usage is just mapping content. 
-                      We can stick to simple content for now or wrap in a specific way. 
-                      Let's stick to simple first.
-                  */}
-
                 {isUser ? (
                   <MessageContent>{content}</MessageContent>
                 ) : (
-                  <MessageResponse>{content}</MessageResponse>
+                  <>
+                    <MessageResponse
+                      className={
+                        isStreaming
+                          ? "markdown-body after:content-['▍'] after:ml-1 after:animate-pulse"
+                          : "markdown-body"
+                      }
+                    >
+                      {content}
+                    </MessageResponse>
+
+                    {/* Like/Dislike buttons - only show when NOT streaming */}
+                    {!isStreaming && content && <MessageFeedback />}
+                  </>
                 )}
               </Message>
             );

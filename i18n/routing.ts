@@ -1,6 +1,6 @@
 import { defineRouting } from "next-intl/routing";
 
-export const locales = ["en", "am", "om", "so", "ti"] as const;
+export const locales = ["en", "am", "om", "so", "ti", "fr"] as const;
 export type Locale = (typeof locales)[number];
 
 export const localeNames: Record<Locale, string> = {
@@ -9,6 +9,7 @@ export const localeNames: Record<Locale, string> = {
   om: "Afaan Oromoo",
   so: "Soomaali",
   ti: "ትግርኛ",
+  fr: "Français",
 };
 
 export const routing = defineRouting({
