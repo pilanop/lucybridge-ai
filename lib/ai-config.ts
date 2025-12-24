@@ -1,6 +1,6 @@
 export const AI_CONFIG = {
   // Using Gemini 3 Flash Preview
-  modelName: "grok-4-1-fast-non-reasoning",
+  modelName: "gemini-2.5-flash-lite",
 
   systemPrompt: (
     languageInstruction: string
