@@ -37,17 +37,22 @@ export async function POST(req: Request) {
     })
   );
 
-  const modelName = AI_CONFIG.modelName;
+  // Select model based on language using centralized config
   let model;
 
-  if (modelName.startsWith("gemini")) {
-    model = google(modelName);
+  if (
+    AI_CONFIG.ethiopicLanguages.includes(
+      responseLanguage as "am" | "om" | "so" | "ti"
+    )
+  ) {
+    // Use Gemini for Ethiopian languages
+    model = google(AI_CONFIG.ethiopicModel);
   } else {
-    // Assuming Grok/xAI for non-gemini models for now
+    // Use Grok for English, French, and others
     const xai = createXai({
       apiKey: process.env.XAI_API_KEY,
     });
-    model = xai(modelName);
+    model = xai(AI_CONFIG.westernModel);
   }
 
   // streamText returns StreamTextResult synchronously

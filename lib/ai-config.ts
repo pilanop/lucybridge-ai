@@ -1,6 +1,8 @@
 export const AI_CONFIG = {
-  // Using Gemini 3 Flash Preview
-  modelName: "gemini-2.5-flash-lite",
+  // Language-based model configuration
+  ethiopicLanguages: ["am", "om", "so", "ti"] as const,
+  ethiopicModel: "gemini-2.5-flash-lite", // Gemini for Ethiopian languages
+  westernModel: "grok-4-1-fast-non-reasoning", // Grok for English, French, etc.
 
   systemPrompt: (
     languageInstruction: string
