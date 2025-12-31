@@ -18,6 +18,7 @@ export function ChatContainer() {
   // Archive stores messages from previous language sessions
   const [archivedMessages, setArchivedMessages] = useState<UIMessage[]>([]);
   const [shouldResetContext, setShouldResetContext] = useState(false);
+  const [isTooltipDismissed, setIsTooltipDismissed] = useState(false);
 
   const { messages, status, sendMessage, stop, setMessages } = useChat();
 
@@ -28,11 +29,18 @@ export function ChatContainer() {
     return [...archivedMessages, ...messages];
   }, [archivedMessages, messages]);
 
+  const showOnboarding = displayMessages.length === 0 && !isTooltipDismissed;
+
   const handleClearChat = useCallback(() => {
     setMessages([]);
     setArchivedMessages([]);
     setShouldResetContext(false);
+    setIsTooltipDismissed(false); // Show tooltip again when chat is cleared
   }, [setMessages]);
+
+  const handleDismissTooltip = useCallback(() => {
+    setIsTooltipDismissed(true);
+  }, []);
 
   // Handle language change - mark for context reset
   const handleLanguageChange = useCallback(
@@ -91,6 +99,8 @@ export function ChatContainer() {
           stopLabel={t("stop")}
           responseLanguage={responseLanguage}
           onResponseLanguageChange={handleLanguageChange}
+          showOnboarding={showOnboarding}
+          onDismissOnboarding={handleDismissTooltip}
         />
       </div>
     </div>

@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { IconPlayerStop } from "@tabler/icons-react";
 import { ChatLanguageSelector } from "./chat-language-selector";
+import { LanguageOnboarding } from "./language-onboarding";
 import type { Locale } from "@/i18n/routing";
 
 interface ChatInputProps {
@@ -21,6 +22,8 @@ interface ChatInputProps {
   stopLabel: string;
   responseLanguage: Locale;
   onResponseLanguageChange: (locale: Locale) => void;
+  showOnboarding: boolean;
+  onDismissOnboarding: () => void;
 }
 
 export function ChatInput({
@@ -34,34 +37,22 @@ export function ChatInput({
   stopLabel,
   responseLanguage,
   onResponseLanguageChange,
+  showOnboarding,
+  onDismissOnboarding,
 }: ChatInputProps) {
   // Wrapper to match PromptInput's onSubmit signature
   const handlePromptSubmit = (message: { text: string }) => {
-    // We already have the state in `input` prop, but PromptInput manages its own state too.
-    // Since we are controlling the input via PromptInputTextarea value,
-    // we can just trigger the original onSubmit.
-
-    // However, PromptInput's onSubmit is called with the text.
-    // We can update the parent state one last time to be sure.
     onInputChange(message.text);
-
-    // Create a synthetic event or just call onSubmit if it doesn't strictly need the event
-    // The parent onSubmit expects React.FormEvent.
-    // We can create a fake one or change the parent to not need it.
-    // For now, let's try to call it with a minimal object if possible,
-    // or better, just refactor parent to be simpler.
-    // But to minimize impact, let's create a synthetic-like object.
     const syntheticEvent = {
       preventDefault: () => {},
     } as React.FormEvent;
-
     onSubmit(syntheticEvent);
   };
 
   return (
     <div className="border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 p-4">
       <div className="max-w-3xl mx-auto">
-        <div className="flex items-center gap-2 mb-2 px-1">
+        <div className="relative flex items-center gap-2 mb-2 px-1">
           <span className="text-xs text-muted-foreground font-medium">
             AI Language:
           </span>
@@ -69,6 +60,9 @@ export function ChatInput({
             value={responseLanguage}
             onChange={onResponseLanguageChange}
           />
+          {showOnboarding && (
+            <LanguageOnboarding onDismiss={onDismissOnboarding} />
+          )}
         </div>
 
         <PromptInput

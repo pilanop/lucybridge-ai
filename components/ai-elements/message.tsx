@@ -331,6 +331,7 @@ export const MessageResponse = memo(
         [remarkGfm],
       ]}
       rehypePlugins={[[rehypeKatex, { output: "htmlAndMathml" }]]}
+      shikiTheme={["github-light", "github-dark"]}
       components={{
         // Code blocks - clean rendering without action buttons
         pre: ({ children, className, ...props }) => (
