@@ -1,5 +1,4 @@
 import { google } from "@ai-sdk/google";
-import { createXai } from "@ai-sdk/xai";
 import { streamText } from "ai";
 import { AI_CONFIG } from "@/lib/ai-config";
 
@@ -21,8 +20,6 @@ export async function POST(req: Request) {
     languageInstructions[responseLanguage] || languageInstructions.en;
 
   // Convert UIMessage format (parts) to CoreMessage format (content)
-  // useChat sends: { id, role, parts: [{ type: 'text', text: '...' }] }
-  // streamText expects: { role, content: string }
   const coreMessages = messages.map(
     (msg: {
       role: string;
@@ -37,31 +34,14 @@ export async function POST(req: Request) {
     })
   );
 
-  // Select model based on language using centralized config
-  let model;
+  // Use Gemini for all languages
+  const model = google(AI_CONFIG.modelName);
 
-  if (
-    AI_CONFIG.ethiopicLanguages.includes(
-      responseLanguage as "am" | "om" | "so" | "ti"
-    )
-  ) {
-    // Use Gemini for Ethiopian languages
-    model = google(AI_CONFIG.ethiopicModel);
-  } else {
-    // Use Grok for English, French, and others
-    const xai = createXai({
-      apiKey: process.env.XAI_API_KEY,
-    });
-    model = xai(AI_CONFIG.westernModel);
-  }
-
-  // streamText returns StreamTextResult synchronously
   const result = streamText({
     model,
     system: AI_CONFIG.systemPrompt(languageInstruction),
     messages: coreMessages,
   });
 
-  // AI SDK v6 uses toUIMessageStreamResponse for useChat compatibility
   return result.toUIMessageStreamResponse();
 }

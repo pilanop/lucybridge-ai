@@ -332,6 +332,18 @@ export const MessageResponse = memo(
       ]}
       rehypePlugins={[[rehypeKatex, { output: "htmlAndMathml" }]]}
       components={{
+        // Code blocks - clean rendering without action buttons
+        pre: ({ children, className, ...props }) => (
+          <pre className={cn("markdown-body", className)} {...props}>
+            {children}
+          </pre>
+        ),
+        code: ({ children, className, ...props }) => (
+          <code className={cn(className)} {...props}>
+            {children}
+          </code>
+        ),
+        // Tables - clean rendering without action buttons
         table: ({ children, className, ...props }) => (
           <div className="my-4 w-full overflow-y-auto rounded-lg border">
             <table className={cn("w-full", className)} {...props}>
