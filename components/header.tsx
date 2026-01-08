@@ -37,7 +37,7 @@ export function Header({ onClearChat, hasMessages }: HeaderProps) {
               className="mr-2"
             >
               <IconTrash className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">{t("app.clearChat")}</span>
+              <span>{t("app.clearChat")}</span>
             </Button>
           )}
           <ThemeToggle />

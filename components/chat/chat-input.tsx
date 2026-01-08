@@ -50,7 +50,7 @@ export function ChatInput({
   };
 
   return (
-    <div className="border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 p-4">
+    <div className="border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 p-4 pb-safe">
       <div className="max-w-3xl mx-auto">
         <div className="relative flex items-center gap-2 mb-2 px-1">
           <span className="text-xs text-muted-foreground font-medium">

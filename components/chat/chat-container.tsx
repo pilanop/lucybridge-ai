@@ -76,7 +76,7 @@ export function ChatContainer() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen-safe bg-background">
       <Header
         onClearChat={handleClearChat}
         hasMessages={displayMessages.length > 0}

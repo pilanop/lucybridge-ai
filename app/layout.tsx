@@ -55,6 +55,14 @@ export const metadata: Metadata = {
   description: "AI-powered study notes for high school students",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover", // Enables safe-area-inset env() vars on iOS
+  interactiveWidget: "resizes-content", // Android Chrome keyboard handling
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{

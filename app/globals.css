@@ -132,6 +132,29 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+
+  /* Mobile-safe viewport height using modern units with fallbacks */
+  /* svh = small viewport height (excludes browser UI) */
+  /* dvh = dynamic viewport height (adapts to browser UI state) */
+  .h-screen-safe {
+    height: 100vh; /* Fallback for older browsers */
+    height: 100svh; /* Small viewport height - always visible */
+  }
+
+  @supports (height: 100dvh) {
+    .h-screen-safe {
+      height: 100dvh; /* Dynamic viewport height - adapts to keyboard/browser UI */
+    }
+  }
+
+  /* Safe area padding for notches and home indicators */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
 
 /* Markdown body styling for clean, structured notes */
